@@ -18,9 +18,7 @@ public class DatabaseService : DbContext
     /// </summary>
     /// <param name="options">Options for configuring the database service.</param>
     public DatabaseService(DbContextOptions<DatabaseService> options)
-    : base(options)
-    {
-    }
+        : base(options) { }
 
     /// <summary>
     /// Gets or sets the table with all Articles.

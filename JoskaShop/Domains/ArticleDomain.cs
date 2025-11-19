@@ -22,7 +22,11 @@ public class ArticleDomain : IArticleDomain
     /// <param name="articleRepository">The article repository.</param>
     /// <param name="logger">The logger.</param>
     /// <param name="currencyService">The currency service.</param>
-    public ArticleDomain(IArticleRepository articleRepository, ILogger<ArticleDomain> logger, CurrencyService currencyService)
+    public ArticleDomain(
+        IArticleRepository articleRepository,
+        ILogger<ArticleDomain> logger,
+        CurrencyService currencyService
+    )
     {
         _articleRepository = articleRepository;
         _logger = logger;
@@ -35,19 +39,25 @@ public class ArticleDomain : IArticleDomain
         if (dto.Name.Length > 64)
         {
             _logger.LogDebug("Article name too long: {Name}", dto.Name);
-            return IResult.FailureResult<Article>("Article name cannot be longer than 64 characters.");
+            return IResult.FailureResult<Article>(
+                "Article name cannot be longer than 64 characters."
+            );
         }
 
         if (dto.Description.Length > 2048)
         {
             _logger.LogDebug("Article description too long: {Description}", dto.Description);
-            return IResult.FailureResult<Article>("Article description cannot be longer than 2048 characters.");
+            return IResult.FailureResult<Article>(
+                "Article description cannot be longer than 2048 characters."
+            );
         }
 
         if (dto.Category?.Length > 64)
         {
             _logger.LogDebug("Article category too long: {Category}", dto.Category);
-            return IResult.FailureResult<Article>("Article category cannot be longer than 64 characters.");
+            return IResult.FailureResult<Article>(
+                "Article category cannot be longer than 64 characters."
+            );
         }
 
         if (dto.Price < 0)
@@ -59,13 +69,17 @@ public class ArticleDomain : IArticleDomain
         if (dto.Price > 0 && string.IsNullOrWhiteSpace(dto.Currency))
         {
             _logger.LogDebug("Article currency missing for price: {Price}", dto.Price);
-            return IResult.FailureResult<Article>("Article currency must be specified when price is greater than zero.");
+            return IResult.FailureResult<Article>(
+                "Article currency must be specified when price is greater than zero."
+            );
         }
 
         if (dto.Price > 0 && !_currencyService.IsIso4217Code(dto.Currency))
         {
             _logger.LogDebug("Article currency invalid: {Currency}", dto.Currency);
-            return IResult.FailureResult<Article>("Article currency must be a valid ISO 4217 currency code.");
+            return IResult.FailureResult<Article>(
+                "Article currency must be a valid ISO 4217 currency code."
+            );
         }
 
         IResult<Article> result = await _articleRepository.AddAsync(dto);
@@ -87,7 +101,9 @@ public class ArticleDomain : IArticleDomain
         if (!result.Success)
         {
             _logger.LogDebug("Failed to get articles: {Message}", result.Message);
-            return IResult.FailureResult<IEnumerable<Article>>($"Failed to get articles: {result.Message}");
+            return IResult.FailureResult<IEnumerable<Article>>(
+                $"Failed to get articles: {result.Message}"
+            );
         }
 
         IEnumerable<Article> articles = result.Value.AsEnumerable();
@@ -100,22 +116,36 @@ public class ArticleDomain : IArticleDomain
         IResult<Article> result = await _articleRepository.GetAsync(id);
         if (!result.Success)
         {
-            _logger.LogDebug("Failed to get article with id {ArticleId}: {Message}", id, result.Message);
-            return IResult.FailureResult<Article>($"Failed to get article with id {id}: {result.Message}");
+            _logger.LogDebug(
+                "Failed to get article with id {ArticleId}: {Message}",
+                id,
+                result.Message
+            );
+            return IResult.FailureResult<Article>(
+                $"Failed to get article with id {id}: {result.Message}"
+            );
         }
 
         return IResult.SuccessResult(result.Value);
     }
 
     /// <inheritdoc/>
-    public async Task<IResult<Article[]>> SearchAsync(string? nameOrDescription = null, string? category = null)
+    public async Task<IResult<Article[]>> SearchAsync(
+        string? nameOrDescription = null,
+        string? category = null
+    )
     {
-        IResult<Article[]> results = await _articleRepository.SearchAsync(nameOrDescription, category);
-        
+        IResult<Article[]> results = await _articleRepository.SearchAsync(
+            nameOrDescription,
+            category
+        );
+
         if (!results.Success)
         {
             _logger.LogDebug("Failed to search articles: {Message}", results.Message);
-            return IResult.FailureResult<Article[]>($"Failed to search articles: {results.Message}");
+            return IResult.FailureResult<Article[]>(
+                $"Failed to search articles: {results.Message}"
+            );
         }
 
         return IResult.SuccessResult(results.Value);

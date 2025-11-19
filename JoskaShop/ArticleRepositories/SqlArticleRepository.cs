@@ -60,14 +60,19 @@ public class SqlArticleRepository : IArticleRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IResult<Article[]>> SearchAsync(string? nameOrDescription = null, string? category = null)
+    public async Task<IResult<Article[]>> SearchAsync(
+        string? nameOrDescription = null,
+        string? category = null
+    )
     {
         IQueryable<Article> query = _db.Articles;
 
         if (!string.IsNullOrWhiteSpace(nameOrDescription))
         {
-            query = query.Where(a => EF.Functions.Like(a.Name, $"%{nameOrDescription}%") ||
-                                     EF.Functions.Like(a.Description, $"%{nameOrDescription}%"));
+            query = query.Where(a =>
+                EF.Functions.Like(a.Name, $"%{nameOrDescription}%")
+                || EF.Functions.Like(a.Description, $"%{nameOrDescription}%")
+            );
         }
 
         if (!string.IsNullOrWhiteSpace(category))

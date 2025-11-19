@@ -19,8 +19,6 @@ public class Logging
     /// <returns>New instance of Serilog logger.</returns>
     public static ILogger CreateBootstrapLogger(IConfiguration configuration)
     {
-        return new LoggerConfiguration()
-            .ReadFrom.Configuration(configuration)
-            .CreateLogger();
+        return new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
     }
 }

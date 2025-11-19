@@ -37,7 +37,7 @@ public class RepositoryTests
             Name = "Branded Drinking Mug",
             Description = "Porcelain drinking cup with your logo on it.",
             Category = "Mug",
-            Price = 0
+            Price = 0,
         };
 
         IResult<Article> addResult = await _repository.AddAsync(dto);
@@ -61,13 +61,15 @@ public class RepositoryTests
         });
 
         IResult<Article> getNonExistentResult = await _repository.GetAsync(9999);
-        Assert.That(getNonExistentResult.Success, Is.False, "Expected failure when getting non-existent article.");
+        Assert.That(
+            getNonExistentResult.Success,
+            Is.False,
+            "Expected failure when getting non-existent article."
+        );
 
         IResult<List<Article>> getAllResult = await _repository.GetAllAsync();
         Assert.That(getAllResult.Success, "Failed to get all articles.");
         IEnumerable<Article> allArticles = getAllResult.Value;
         Assert.That(allArticles, Is.Not.Empty, "Expected at least one article in the repository.");
     }
-
-    
 }

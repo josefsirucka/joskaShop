@@ -22,18 +22,23 @@ public static class ServicesRegistrator
     /// <param name="services">Service collection.</param>
     /// <param name="configuration">Application configuration.</param>
     /// <param name="isDevelopment">Is development environment.</param>
-    public static void RegisterAllServices(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+    public static void RegisterAllServices(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        bool isDevelopment
+    )
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(o => SwaggerBootStrapper.ApplyConfiguration(o));
-        services.AddControllers()
-                .AddJsonOptions(options =>
+        services
+            .AddControllers()
+            .AddJsonOptions(options =>
                 options.JsonSerializerOptions.DefaultIgnoreCondition = System
-                .Text
-                .Json
-                .Serialization
-                .JsonIgnoreCondition
-                .WhenWritingNull
+                    .Text
+                    .Json
+                    .Serialization
+                    .JsonIgnoreCondition
+                    .WhenWritingNull
             );
         services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
 
@@ -44,15 +49,16 @@ public static class ServicesRegistrator
         else
         {
             services.AddDbContext<DatabaseService>(options =>
-                 options.UseSqlite(configuration.GetValue<string>("DefaultConnection"),
-                options => options.CommandTimeout(10)
-            ));
+                options.UseSqlite(
+                    configuration.GetValue<string>("DefaultConnection"),
+                    options => options.CommandTimeout(10)
+                )
+            );
 
             services.AddScoped<IArticleRepository, SqlArticleRepository>();
         }
 
         services.AddScoped<IArticleDomain, ArticleDomain>();
         services.AddScoped<CurrencyService>();
-        
     }
 }

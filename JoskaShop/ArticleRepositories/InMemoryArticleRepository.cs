@@ -36,12 +36,13 @@ public class InMemoryArticleRepository : IArticleRepository
         Article? article = _articles.SingleOrDefault(a => a.ArticleId == id);
         if (article == null)
         {
-            return Task.FromResult(IResult.FailureResult<Article>($"Article with id {id} not found."));
+            return Task.FromResult(
+                IResult.FailureResult<Article>($"Article with id {id} not found.")
+            );
         }
 
         return Task.FromResult(IResult.SuccessResult(article));
     }
-        
 
     /// <inheritdoc/>
     public Task<IResult<List<Article>>> GetAllAsync()
@@ -50,19 +51,27 @@ public class InMemoryArticleRepository : IArticleRepository
     }
 
     /// <inheritdoc/>
-    public Task<IResult<Article[]>> SearchAsync(string? nameOrDescription = null, string? category = null)
+    public Task<IResult<Article[]>> SearchAsync(
+        string? nameOrDescription = null,
+        string? category = null
+    )
     {
         IEnumerable<Article> query = _articles;
 
         if (!string.IsNullOrWhiteSpace(nameOrDescription))
         {
-            query = query.Where(a => a.Name.Contains(nameOrDescription, StringComparison.OrdinalIgnoreCase) ||
-                                     a.Description.Contains(nameOrDescription, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(a =>
+                a.Name.Contains(nameOrDescription, StringComparison.OrdinalIgnoreCase)
+                || a.Description.Contains(nameOrDescription, StringComparison.OrdinalIgnoreCase)
+            );
         }
 
         if (!string.IsNullOrWhiteSpace(category))
         {
-            query = query.Where(a => a.Category != null && a.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(a =>
+                a.Category != null
+                && a.Category.Equals(category, StringComparison.OrdinalIgnoreCase)
+            );
         }
 
         return Task.FromResult(IResult.SuccessResult(query.ToArray()));

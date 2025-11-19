@@ -29,13 +29,15 @@ public class JoskaShopApp
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             Log.Logger = Logging.CreateBootstrapLogger(builder.Configuration);
-            builder.Services.RegisterAllServices(builder.Configuration, builder.Environment.IsDevelopment());
+            builder.Services.RegisterAllServices(
+                builder.Configuration,
+                builder.Environment.IsDevelopment()
+            );
 
             WebApplication app = builder.Build();
             app.UseDeveloperToolsExtension();
 
             app.UseHttpsRedirection();
-            
             app.UseRouting();
             app.MapControllers();
 

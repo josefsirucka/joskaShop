@@ -43,7 +43,11 @@ public class ArticlesController : ControllerBase
             return BadRequest(result.Message);
         }
 
-        return CreatedAtAction(nameof(GetArticle), new { id = result.Value.ArticleId }, result.Value);
+        return CreatedAtAction(
+            nameof(GetArticle),
+            new { id = result.Value.ArticleId },
+            result.Value
+        );
     }
 
     /// <summary>
@@ -71,9 +75,15 @@ public class ArticlesController : ControllerBase
     /// <param name="searchCategory">Optional category to search for.</param>
     /// <returns>Task that represents the asynchronous operation with Action Result.</returns>
     [HttpGet("articles")]
-    public async Task<ActionResult<Article[]>> GetArticles([FromQuery] string? searchOrDescriptionName = null, [FromQuery] string? searchCategory = null)
+    public async Task<ActionResult<Article[]>> GetArticles(
+        [FromQuery] string? searchOrDescriptionName = null,
+        [FromQuery] string? searchCategory = null
+    )
     {
-        if (string.IsNullOrWhiteSpace(searchOrDescriptionName) && string.IsNullOrWhiteSpace(searchCategory))
+        if (
+            string.IsNullOrWhiteSpace(searchOrDescriptionName)
+            && string.IsNullOrWhiteSpace(searchCategory)
+        )
         {
             _logger.LogInformation("Getting all articles without filters.");
             IResult<IEnumerable<Article>> result = await _articleDomain.GetAllArticlesAsync();
@@ -87,8 +97,15 @@ public class ArticlesController : ControllerBase
         }
         else
         {
-            _logger.LogInformation("Getting articles with filters - Name/Description: {Name}, Category: {Category}", searchOrDescriptionName, searchCategory);
-            IResult<Article[]> result = await _articleDomain.SearchAsync(searchOrDescriptionName, searchCategory);
+            _logger.LogInformation(
+                "Getting articles with filters - Name/Description: {Name}, Category: {Category}",
+                searchOrDescriptionName,
+                searchCategory
+            );
+            IResult<Article[]> result = await _articleDomain.SearchAsync(
+                searchOrDescriptionName,
+                searchCategory
+            );
 
             if (!result.Success)
             {
@@ -97,6 +114,5 @@ public class ArticlesController : ControllerBase
 
             return Ok(result.Value.ToArray());
         }
-
     }
 }
