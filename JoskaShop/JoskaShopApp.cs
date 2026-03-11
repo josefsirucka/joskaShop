@@ -39,7 +39,6 @@ public class JoskaShopApp
             app.UseDeveloperToolsExtension();
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
             app.MapControllers();
 
