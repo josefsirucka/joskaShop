@@ -1,6 +1,7 @@
-// <copyright file="JoskaShopApp.cs" company="Papirfly Group">
-// Copyright (c) Papirfly Group. All rights reserved.
+// <copyright file="GlobalUsings.cs" company="Josef Širůčka">
+// Copyright (c) Josef Širůčka. All rights reserved.
 // </copyright>
+// <summary>Created on: 11.03 2026</summary>
 
 using JoskaShop.BootStrappers;
 using JoskaShop.Extensions;
@@ -29,13 +30,16 @@ public class JoskaShopApp
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
             Log.Logger = Logging.CreateBootstrapLogger(builder.Configuration);
-            builder.Services.RegisterAllServices(builder.Configuration, builder.Environment.IsDevelopment());
+            builder.Services.RegisterAllServices(
+                builder.Configuration,
+                builder.Environment.IsDevelopment()
+            );
 
             WebApplication app = builder.Build();
             app.UseDeveloperToolsExtension();
 
             app.UseHttpsRedirection();
-            
+
             app.UseRouting();
             app.MapControllers();
 

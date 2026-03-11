@@ -1,6 +1,7 @@
-// <copyright file="SwaggerBootStrapper.cs" company="Papirfly Group">
-// Copyright (c) Papirfly Group. All rights reserved.
+// <copyright file="GlobalUsings.cs" company="Josef Širůčka">
+// Copyright (c) Josef Širůčka. All rights reserved.
 // </copyright>
+// <summary>Created on: 11.03 2026</summary>
 
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -41,7 +42,11 @@ public static partial class SwaggerBootStrapper
             Title = "Joska Shop Api Demo",
             Version = "v1",
             Description = "I want to be the best developer.",
-            Contact = new OpenApiContact() { Name = "Josef Širůčka", Email = "joska@papirfly.com" },
+            Contact = new OpenApiContact()
+            {
+                Name = "Josef Širůčka",
+                Email = "josef.sirucka@gmail.com",
+            },
         };
     }
 
@@ -50,7 +55,7 @@ public static partial class SwaggerBootStrapper
         string fullName = type.FullName ?? "<MissingName>";
 
         // Remove the top-level namespace
-        const string TOP_LEVEL_NAMESPACE = "PFCZH.";
+        const string TOP_LEVEL_NAMESPACE = "JoskaShop.";
         if (fullName.StartsWith(TOP_LEVEL_NAMESPACE))
         {
             fullName = fullName[TOP_LEVEL_NAMESPACE.Length..];

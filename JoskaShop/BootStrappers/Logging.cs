@@ -1,6 +1,7 @@
-// <copyright file="Logging.cs" company="Papirfly Group">
-// Copyright (c) Papirfly Group. All rights reserved.
+// <copyright file="GlobalUsings.cs" company="Josef Širůčka">
+// Copyright (c) Josef Širůčka. All rights reserved.
 // </copyright>
+// <summary>Created on: 11.03 2026</summary>
 
 using Serilog;
 using ILogger = Serilog.ILogger;
@@ -19,8 +20,6 @@ public class Logging
     /// <returns>New instance of Serilog logger.</returns>
     public static ILogger CreateBootstrapLogger(IConfiguration configuration)
     {
-        return new LoggerConfiguration()
-            .ReadFrom.Configuration(configuration)
-            .CreateLogger();
+        return new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
     }
 }

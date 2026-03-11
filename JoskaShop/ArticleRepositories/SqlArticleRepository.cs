@@ -1,6 +1,7 @@
-// <copyright file="SqlArticleRepository.cs" company="Papirfly Group">
-// Copyright (c) Papirfly Group. All rights reserved.
+// <copyright file="GlobalUsings.cs" company="Josef Širůčka">
+// Copyright (c) Josef Širůčka. All rights reserved.
 // </copyright>
+// <summary>Created on: 11.03 2026</summary>
 
 using JoskaShop.Models;
 using JoskaShop.Services;
@@ -60,14 +61,19 @@ public class SqlArticleRepository : IArticleRepository
     }
 
     /// <inheritdoc/>
-    public async Task<IResult<Article[]>> SearchAsync(string? nameOrDescription = null, string? category = null)
+    public async Task<IResult<Article[]>> SearchAsync(
+        string? nameOrDescription = null,
+        string? category = null
+    )
     {
         IQueryable<Article> query = _db.Articles;
 
         if (!string.IsNullOrWhiteSpace(nameOrDescription))
         {
-            query = query.Where(a => EF.Functions.Like(a.Name, $"%{nameOrDescription}%") ||
-                                     EF.Functions.Like(a.Description, $"%{nameOrDescription}%"));
+            query = query.Where(a =>
+                EF.Functions.Like(a.Name, $"%{nameOrDescription}%")
+                || EF.Functions.Like(a.Description, $"%{nameOrDescription}%")
+            );
         }
 
         if (!string.IsNullOrWhiteSpace(category))

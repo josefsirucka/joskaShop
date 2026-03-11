@@ -1,6 +1,7 @@
-// <copyright file="GlobalUsings.cs" company="Papirfly Group">
-// Copyright (c) Papirfly Group. All rights reserved.
+// <copyright file="GlobalUsings.cs" company="Josef Širůčka">
+// Copyright (c) Josef Širůčka. All rights reserved.
 // </copyright>
+// <summary>Created on: 11.03 2026</summary>
 
 global using JoskaShop;
 global using PerfectResult;

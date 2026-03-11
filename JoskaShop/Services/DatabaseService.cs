@@ -1,6 +1,7 @@
-// <copyright file="DatabaseService.cs" company="Papirfly Group">
-// Copyright (c) Papirfly Group. All rights reserved.
+// <copyright file="GlobalUsings.cs" company="Josef Širůčka">
+// Copyright (c) Josef Širůčka. All rights reserved.
 // </copyright>
+// <summary>Created on: 11.03 2026</summary>
 
 using JoskaShop.Models;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,7 @@ public class DatabaseService : DbContext
     /// </summary>
     /// <param name="options">Options for configuring the database service.</param>
     public DatabaseService(DbContextOptions<DatabaseService> options)
-    : base(options)
-    {
-    }
+        : base(options) { }
 
     /// <summary>
     /// Gets or sets the table with all Articles.
